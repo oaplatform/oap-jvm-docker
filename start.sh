@@ -5,7 +5,6 @@ cd $1
 exec java \
   @conf/vm.options \
   -XX:ActiveProcessorCount=$(($(nproc) / 2)) \
-  --enable-preview \
   -cp $1/conf:lib/* \
   oap.application.Boot \
   --start \

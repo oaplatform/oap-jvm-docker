@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk13:latest
+FROM adoptopenjdk/openjdk15:jdk-15_36
 
 ARG mongo
 
