@@ -1,10 +1,10 @@
-FROM adoptopenjdk/openjdk15:jdk-15_36
+FROM adoptopenjdk/openjdk15:jdk-15.0.1_9
 
 ARG mongo
 
 MAINTAINER igor.petrenko <igor.petrenko@xenoss.io>
 
-RUN apt-get update && apt-get install -y gnupg2 libgomp1 less
+RUN apt-get update && apt-get install -y gnupg2 libgomp1 less nano
 
 COPY start.sh /opt/xenoss/
 RUN chmod +x /opt/xenoss/start.sh
