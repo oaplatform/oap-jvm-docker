@@ -14,5 +14,5 @@ exec java \
   -cp $1/conf:lib/* \
   oap.application.Boot \
   --start \
-  --config-directory=/etc/xenoss/conf.d \
+  --config-directory=conf.d \
   --config=conf/application.conf
