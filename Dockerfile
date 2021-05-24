@@ -54,7 +54,10 @@ ARG mongo
 
 MAINTAINER igor.petrenko <igor.petrenko@xenoss.io>
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg2 libgomp1 less nano htop mc
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    gnupg2 libgomp1 less nano htop mc \
+    procps
 
 COPY start.sh /opt/xenoss/
 RUN chmod +x /opt/xenoss/start.sh
