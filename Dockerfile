@@ -1,39 +1,44 @@
 # https://github.com/AdoptOpenJDK/openjdk-docker/blob/master/15/jdk/debianslim/Dockerfile.hotspot.releases.full
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends tzdata curl ca-certificates fontconfig locales jq \
+    && apt-get install -y --no-install-recommends \
+    tzdata curl ca-certificates fontconfig locales jq bc \
+    procps \
+    ncat \
+    net-tools \
     && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
     && locale-gen en_US.UTF-8 \
     && rm -rf /var/lib/apt/lists/*
 
-ENV JAVA_VERSION jdk-15.0.2+7
+ENV JAVA_VERSION jdk-17+35
 
 RUN set -eux; \
     JAVA_VERSION_URLENCODE="$(printf ${JAVA_VERSION} | jq -sRr '@uri')"; \
     ARCH="$(dpkg --print-architecture)"; \
     case "${ARCH}" in \
        aarch64|arm64) \
-         ESUM='6e8b6b037148cf20a284b5b257ec7bfdf9cc31ccc87778d0dfd95a2fddf228d4'; \
-         BINARY_URL="https://github.com/AdoptOpenJDK/openjdk15-binaries/releases/download/${JAVA_VERSION_URLENCODE}/OpenJDK15U-jdk_aarch64_linux_hotspot_15.0.2_7.tar.gz"; \
+         ESUM='e08e6d8c84da28a2c49ccd511f8835c329fbdd8e4faff662c58fa24cca74021d'; \
+    jdk-17%2B35/OpenJDK17-jdk_aarch64_linux_hotspot_17_35.tar.gz
+         BINARY_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-jdk_aarch64_linux_hotspot_17_35.tar.gz"; \
          ;; \
        armhf|armv7l) \
-         ESUM='ff39c0380224e419d940382c4d651cb1e6297a794854e0cc459c1fd4973b3368'; \
-         BINARY_URL="https://github.com/AdoptOpenJDK/openjdk15-binaries/releases/download/${JAVA_VERSION_URLENCODE}/OpenJDK15U-jdk_arm_linux_hotspot_15.0.2_7.tar.gz"; \
+         ESUM='77ef6aa6f665373e212097b937c22d0cad2add90e439ec0e90534a7ff0e8a6e9'; \
+         BINARY_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-jdk_arm_linux_hotspot_17_35.tar.gz\\"; \
          ;; \
        ppc64el|ppc64le) \
-         ESUM='486f2aad94c5580c0b27c9007beebadfccd4677c0bd9565a77ca5c34af5319f9'; \
-         BINARY_URL="https://github.com/AdoptOpenJDK/openjdk15-binaries/releases/download/${JAVA_VERSION_URLENCODE}/OpenJDK15U-jdk_ppc64le_linux_hotspot_15.0.2_7.tar.gz"; \
+         ESUM='2e58f76fd332b73f323e47c73d0a81b76739debab067e7a32ed6abd73fd64c57'; \
+         BINARY_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-jdk_ppc64le_linux_hotspot_17_35.tar.gz"; \
          ;; \
        s390x) \
-         ESUM='7dc35a8a4ba1ccf6cfe96fcf26e09ed936f1802ca668ca6bf708e2392c35ab6a'; \
-         BINARY_URL="https://github.com/AdoptOpenJDK/openjdk15-binaries/releases/download/${JAVA_VERSION_URLENCODE}/OpenJDK15U-jdk_s390x_linux_hotspot_15.0.2_7.tar.gz"; \
+         ESUM='7a48159fca62b7f6afd58fb2e9712a3ef1494950212d4631e25598b45d9599b1'; \
+         BINARY_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-jdk_s390x_linux_hotspot_17_35.tar.gz"; \
          ;; \
        amd64|x86_64) \
-         ESUM='94f20ca8ea97773571492e622563883b8869438a015d02df6028180dd9acc24d'; \
-         BINARY_URL="https://github.com/AdoptOpenJDK/openjdk15-binaries/releases/download/${JAVA_VERSION_URLENCODE}/OpenJDK15U-jdk_x64_linux_hotspot_15.0.2_7.tar.gz"; \
+         ESUM='6f1335d9a7855159f982dac557420397be9aa85f3f7bc84e111d25871c02c0c7'; \
+         BINARY_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17%2B35/OpenJDK17-jdk_x64_linux_hotspot_17_35.tar.gz"; \
          ;; \
        *) \
          echo "Unsupported arch: ${ARCH}"; \
