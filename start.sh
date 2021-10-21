@@ -56,11 +56,11 @@ cd $1 || exit 2;
 
 echo "cpuCount ${cpuCount} javaCpuCount ${javaCpuCount} exec ${CMD}"
 
-#exec ${CMD} \
-#  @conf/vm.options \
-#  -XX:ActiveProcessorCount=${cpuCount} \
-#  -cp $1/conf:lib/* \
-#  oap.application.Boot \
-#  --start \
-#  --config-directory=conf.d \
-#  --config=conf/application.conf
+exec ${CMD} \
+  @conf/vm.options \
+  -XX:ActiveProcessorCount=${cpuCount} \
+  -cp $1/conf:lib/* \
+  oap.application.Boot \
+  --start \
+  --config-directory=conf.d \
+  --config=conf/application.conf
