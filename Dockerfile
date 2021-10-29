@@ -73,3 +73,6 @@ RUN if [ "$mongo" = "true" ] ;  then \
     apt-get update && \
     apt-get install -y mongodb-org-shell \
     ; fi
+
+RUN echo "dash dash/sh boolean false" | debconf-set-selections
+RUN DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
