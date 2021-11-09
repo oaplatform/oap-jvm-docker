@@ -7,6 +7,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
     tzdata curl ca-certificates fontconfig locales jq bc \
     procps \
+    sysstat \
     ncat \
     net-tools \
     libjna-java \
