@@ -13,7 +13,7 @@ if [[ -z "${JAVA_CPU_AFFINITY_SKIP_FIRST}" ]]; then
   CMD="java"
 else
   ((javaCpuCount=cpuCount-JAVA_CPU_AFFINITY_SKIP_FIRST))
-  ((fromCpu=JAVA_CPU_AFFINITY_SKIP_FIRST-1))
+  ((fromCpu=JAVA_CPU_AFFINITY_SKIP_FIRST))
 
   CMD="taskset --cpu-list ${fromCpu}-${cpuCount} java"
 
