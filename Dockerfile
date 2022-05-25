@@ -22,11 +22,11 @@ RUN set -eux; \
     case "${ARCH}" in \
        aarch64|arm64) \
          ESUM='f23d482b2b4ada08166201d1a0e299e3e371fdca5cd7288dcbd81ae82f3a75e3'; \
-         BINARY_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.3%2B7/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.1_12.tar.gz"; \
+         BINARY_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.3%2B7/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.3_7.tar.gz"; \
          ;; \
        amd64|x86_64) \
          ESUM='6ea18c276dcbb8522feeebcfc3a4b5cb7c7e7368ba8590d3326c6c3efc5448b6'; \
-         BINARY_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.3%2B7/OpenJDK17U-jdk_x64_linux_hotspot_17.0.1_12.tar.gz"; \
+         BINARY_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.3%2B7/OpenJDK17U-jdk_x64_linux_hotspot_17.0.3_7.tar.gz"; \
          ;; \
        *) \
          echo "Unsupported arch: ${ARCH}"; \
