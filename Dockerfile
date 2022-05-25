@@ -21,10 +21,10 @@ RUN set -eux; \
     ARCH="$(dpkg --print-architecture)"; \
     case "${ARCH}" in \
        aarch64|arm64) \
-         BINARY_URL="https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.1%2B10/OpenJDK17U-jdk_aarch64_linux_hotspot_18.0.1_10.tar.gz"; \
+         BINARY_URL="https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.1%2B10/OpenJDK18U-jdk_aarch64_linux_hotspot_18.0.1_10.tar.gz"; \
          ;; \
        amd64|x86_64) \
-         BINARY_URL="https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.1%2B10/OpenJDK17U-jdk_x64_linux_hotspot_18.0.1_10.tar.gz"; \
+         BINARY_URL="https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.1%2B10/OpenJDK18U-jdk_x64_linux_hotspot_18.0.1_10.tar.gz"; \
          ;; \
        *) \
          echo "Unsupported arch: ${ARCH}"; \
