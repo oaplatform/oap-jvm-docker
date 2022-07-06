@@ -2,6 +2,12 @@
 
 set -x
 
+if [ -d "/vault/secrets" ]; then
+  for secret in $(find /vault/secrets -type f | sort -n); do
+    source $secret
+  done
+fi
+
 if [[ $(uname -a) == *"aarch64"* ]]; then
   cpuCount=$(nproc)
 else
