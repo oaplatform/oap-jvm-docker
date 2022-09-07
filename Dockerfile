@@ -55,7 +55,7 @@ RUN chmod +x /opt/xenoss/start.sh
 RUN if [ "$mongo" = "true" ] ;  then \
     apt-get install -y gnupg2 && \
     curl -Ls https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add - && \
-    echo "deb hhttp://repo.mongodb.org/apt/debian bullseye/mongodb-org/5.0 main" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list && \
+    echo "deb https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/5.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list && \
     apt-get update && \
     apt-get install -y mongodb-org-shell \
     ; fi
