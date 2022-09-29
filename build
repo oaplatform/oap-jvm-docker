@@ -1,0 +1,11 @@
+#! /bin/bash
+set -e
+set -x
+
+DOCKER_REPOSITORY=${1:?Parameter missing: Docker repository.}
+DOCKER_VERSION=${2:?Parameter missing: Version.}
+
+docker buildx build \
+    --push \
+    -t "${DOCKER_REPOSITORY}/dataseat-jvm-docker:jdk-${DOCKER_VERSION}" \
+    -f Dockerfile .
