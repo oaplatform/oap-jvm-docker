@@ -3,9 +3,12 @@ set -e
 set -x
 
 DOCKER_REPOSITORY=${1:?Parameter missing: Docker repository.}
-DOCKER_VERSION=${2:?Parameter missing: Version.}
+DOCKER_PROJECT_NAME=${2:?Parameter missing: Docker project name.}
+DOCKER_VERSION=${3:?Parameter missing: Version.}
+MONGO=${4:-false}
 
 docker buildx build \
     --push \
-    -t "${DOCKER_REPOSITORY}/dataseat-jvm-docker:${DOCKER_VERSION}" \
+    --build-arg mongo=$MONGO \
+    -t "${DOCKER_REPOSITORY}/${DOCKER_PROJECT_NAME}:${DOCKER_VERSION}" \
     -f Dockerfile .
