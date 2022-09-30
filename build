@@ -7,5 +7,5 @@ DOCKER_VERSION=${2:?Parameter missing: Version.}
 
 docker buildx build \
     --push \
-    -t "${DOCKER_REPOSITORY}/dataseat-jvm-docker:jdk-${DOCKER_VERSION}" \
+    -t "${DOCKER_REPOSITORY}/dataseat-jvm-docker:${DOCKER_VERSION}" \
     -f Dockerfile .
