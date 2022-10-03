@@ -1,0 +1,8 @@
+#! /bin/bash
+set -ex
+
+DOCKER_REPOSITORY=${1:?Parameter missing: Docker repository.}
+DOCKER_PROJECT_NAME=${2:?Parameter missing: Docker project name.}
+DOCKER_VERSION=${3:?Parameter missing: Version.}
+
+docker buildx imagetools create $DOCKER_REPOSITORY/$DOCKER_PROJECT_NAME:$DOCKER_VERSION --tag $DOCKER_REPOSITORY/$DOCKER_PROJECT_NAME:latest
