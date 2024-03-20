@@ -1,7 +1,8 @@
-ARG JVM_VERSION=21
 ARG PLATFORM
 
 FROM --platform=linux/${PLATFORM} debian:bookworm-slim
+
+ARG JVM_VERSION=21
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
