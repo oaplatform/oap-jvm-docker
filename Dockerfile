@@ -1,4 +1,4 @@
-ARG BUILD_VERSION=0.0.1
+ARG JVM_VERSION=21
 ARG PLATFORM
 
 FROM --platform=${PLATFORM} debian:bookworm-slim
@@ -20,7 +20,7 @@ RUN apt-get update \
     && wget -O - https://apt.corretto.aws/corretto.key | \gpg --dearmor -o /usr/share/keyrings/corretto-keyring.gpg \
     && echo "deb [signed-by=/usr/share/keyrings/corretto-keyring.gpg] https://apt.corretto.aws stable main" | tee /etc/apt/sources.list.d/corretto.list \
     && apt-get update \
-    && apt-get install -y java-21-amazon-corretto-jdk \
+    && apt-get install -y java-${JVM_VERSION}-amazon-corretto-jdk \
     && chmod +x /opt/xenoss/start.sh \
     && echo "dash dash/sh boolean false" | debconf-set-selections \
     && DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash \
