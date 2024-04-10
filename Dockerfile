@@ -14,17 +14,17 @@ RUN apt-get update \
     && locale-gen en_US.UTF-8 \
     && rm -rf /var/lib/apt/lists/*
 
-ENV JAVA_VERSION jdk-18.0.2.1+1
+ENV JAVA_VERSION 21.0.2.14.1
 
 RUN set -eux; \
     JAVA_VERSION_URLENCODE="$(printf ${JAVA_VERSION} | jq -sRr '@uri')"; \
     ARCH="$(dpkg --print-architecture)"; \
     case "${ARCH}" in \
        aarch64|arm64) \
-         BINARY_URL="https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.2.1%2B1/OpenJDK18U-jdk_aarch64_linux_hotspot_18.0.2.1_1.tar.gz"; \
+         BINARY_URL="https://corretto.aws/downloads/resources/${JAVA_VERSION}/amazon-corretto-${JAVA_VERSION}-linux-aarch64.tar.gz"; \
          ;; \
        amd64|x86_64) \
-         BINARY_URL="https://github.com/adoptium/temurin18-binaries/releases/download/jdk-18.0.2.1%2B1/OpenJDK18U-jdk_x64_linux_hotspot_18.0.2.1_1.tar.gz"; \
+         BINARY_URL="https://corretto.aws/downloads/resources/${JAVA_VERSION}/amazon-corretto-${JAVA_VERSION}-linux-x64.tar.gz"; \
          ;; \
        *) \
          echo "Unsupported arch: ${ARCH}"; \
