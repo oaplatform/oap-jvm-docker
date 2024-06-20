@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <prerequisites>
+        <maven>3.8.6</maven>
+    </prerequisites>
+
+    <packaging>pom</packaging>
+
+    <groupId>oap</groupId>
+    <artifactId>oap-jvm</artifactId>
+    <version>${xenoss.project.version}</version>
+
+    <organization>
+        <name>Open Application Platform</name>
+        <url>http://oaplatform.org</url>
+    </organization>
+
+    <properties>
+        <xenoss.project.version>22.0.0</xenoss.project.version>
+
+        <oap.deps.docker-maven-plugin.version>0.44.0</oap.deps.docker-maven-plugin.version>
+        <oap.deps.build-helper-maven-plugin>3.6.0</oap.deps.build-helper-maven-plugin>
+
+        <docker.image.name>docker.oaplatform.org/oap-jvm</docker.image.name>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${oap.deps.build-helper-maven-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>regex-property</id>
+                        <goals>
+                            <goal>regex-property</goal>
+                        </goals>
+                        <configuration>
+                            <name>JVM_VERSION</name>
+                            <value>${xenoss.project.version}</value>
+                            <regex>\.\d+\.\d+$</regex>
+                            <replacement></replacement>
+                            <failIfNoMatch>true</failIfNoMatch>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>${oap.deps.docker-maven-plugin.version}</version>
+                <configuration>
+                    <outputDirectory>target/.maven-docker</outputDirectory>
+                    <images>
+                        <image>
+                            <name>${docker.image.name}</name>
+                            <build>
+                                <buildx>
+                                    <platforms>
+                                        <platform>linux/arm64,linux/amd64</platform>
+                                    </platforms>
+                                </buildx>
+                                <contextDir>${project.basedir}</contextDir>
+                                <filter>false</filter>
+                                <optimise>true</optimise>
+                                <tags>
+                                    <tag>${xenoss.project.version}</tag>
+                                </tags>
+                                <args>
+                                    <JVM_VERSION>${JVM_VERSION}</JVM_VERSION>
+                                </args>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>build</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>push</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
