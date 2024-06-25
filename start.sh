@@ -10,6 +10,10 @@ fi
 
 cpuCount=$(grep ^cpu\\scores /proc/cpuinfo | uniq |  awk '{print $4}')
 
+if [[ -z "${cpuCount}" ]]; then
+  cpuCount=$(nproc --all)
+fi
+
 if [[ -z "${JAVA_CPU_AFFINITY_SKIP_FIRST}" ]]; then
   javaCpuCount=$cpuCount
   CMD="java"
