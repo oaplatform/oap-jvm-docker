@@ -21,7 +21,7 @@ else
   ((javaCpuCount=cpuCount-JAVA_CPU_AFFINITY_SKIP_FIRST))
   ((fromCpu=JAVA_CPU_AFFINITY_SKIP_FIRST))
 
-  CMD="taskset --cpu-list ${fromCpu}-${cpuCount} java"
+  CMD="taskset --cpu-list ${fromCpu}-${cpuCount} java -XX:ActiveProcessorCount=${javaCpuCount}"
 
   echo "JAVA_CPU_AFFINITY_SKIP_FIRST = ${JAVA_CPU_AFFINITY_SKIP_FIRST}"
 fi
@@ -41,7 +41,6 @@ exec ${CMD} \
   --add-opens=java.base/java.net=ALL-UNNAMED \
   --add-opens=java.base/java.text=ALL-UNNAMED \
   --add-opens=java.sql/java.sql=ALL-UNNAMED \
-  -XX:ActiveProcessorCount=${javaCpuCount} \
   -cp $1/conf:lib/* \
   oap.application.Boot \
   --start \
