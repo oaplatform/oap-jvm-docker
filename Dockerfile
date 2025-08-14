@@ -8,12 +8,14 @@ MAINTAINER igor.petrenko <igor.petrenko@xenoss.io>
 
 COPY start.sh /opt/xenoss/
 
+# LightGBM: libgomp1
+
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       tzdata curl ca-certificates fontconfig locales jq bc \
       procps  sysstat ncat net-tools libjna-java \
       gnupg2 libgomp1 less nano htop mc procps \
-      gpg ca-certificates curl wget gnupg
+      gpg ca-certificates curl wget gnupg libgomp1
 RUN echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 RUN locale-gen en_US.UTF-8
 RUN wget -O - https://apt.corretto.aws/corretto.key | \gpg --dearmor -o /usr/share/keyrings/corretto-keyring.gpg
