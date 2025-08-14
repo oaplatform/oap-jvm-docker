@@ -20,7 +20,7 @@
     </organization>
 
     <properties>
-        <xenoss.project.version>24.0.1</xenoss.project.version>
+        <xenoss.project.version>24.0.2</xenoss.project.version>
 
         <oap.deps.docker-maven-plugin.version>0.46.0</oap.deps.docker-maven-plugin.version>
         <oap.deps.build-helper-maven-plugin>3.6.1</oap.deps.build-helper-maven-plugin>
