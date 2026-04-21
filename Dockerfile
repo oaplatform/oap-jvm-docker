@@ -54,11 +54,10 @@ COPY start.sh /opt/xenoss/
 RUN chmod +x /opt/xenoss/start.sh
 
 RUN if [ "$mongo" = "true" ] ;  then \
-    apt-get install -y gnupg2 && \
-    curl -Ls https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add - && \
-    echo "deb https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/5.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list && \
+    curl -fsSL https://www.mongodb.org/static/pgp/server-6.0.asc | gpg --dearmor -o /usr/share/keyrings/mongodb-server-6.0.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg] http://repo.mongodb.org/apt/debian bookworm/mongodb-org/6.0 main" | tee /etc/apt/sources.list.d/mongodb-org-6.0.list && \
     apt-get update && \
-    apt-get install -y mongodb-org-shell \
+    apt-get install -y mongodb-mongosh \
     ; fi
 
 RUN echo "dash dash/sh boolean false" | debconf-set-selections
