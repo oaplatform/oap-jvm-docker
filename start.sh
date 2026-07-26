@@ -2,35 +2,9 @@
 
 set -x
 
-if [ -d "/vault/secrets" ]; then
-  for secret in $(find /vault/secrets -type f | sort -n); do
-    source $secret
-  done
-fi
-
-cpuCount=$(grep ^cpu\\scores /proc/cpuinfo | uniq |  awk '{print $4}')
-
-if [[ -z "${cpuCount}" ]]; then
-  cpuCount=$(nproc --all)
-fi
-
-if [[ -z "${JAVA_CPU_AFFINITY_SKIP_FIRST}" ]]; then
-  javaCpuCount=$cpuCount
-  CMD="java"
-else
-  ((javaCpuCount=cpuCount-JAVA_CPU_AFFINITY_SKIP_FIRST))
-  ((fromCpu=JAVA_CPU_AFFINITY_SKIP_FIRST))
-
-  CMD="taskset --cpu-list ${fromCpu}-${cpuCount} java -XX:ActiveProcessorCount=${javaCpuCount}"
-
-  echo "JAVA_CPU_AFFINITY_SKIP_FIRST = ${JAVA_CPU_AFFINITY_SKIP_FIRST}"
-fi
-
 cd $1 || exit 2;
 
-echo "cpuCount ${cpuCount} javaCpuCount ${javaCpuCount} exec ${CMD}"
-
-exec ${CMD} \
+exec java \
   @conf/vm.options \
   --add-opens=java.base/java.lang=ALL-UNNAMED \
   --add-opens=java.base/java.math=ALL-UNNAMED \
