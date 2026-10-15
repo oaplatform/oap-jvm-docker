@@ -1,4 +1,4 @@
-FROM debian:trixie-20260713-slim
+FROM debian:trixie-20261005-slim
 
 ARG JVM_VERSION
 

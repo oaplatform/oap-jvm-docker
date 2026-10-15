@@ -20,10 +20,12 @@
     </organization>
 
     <properties>
-        <xenoss.project.version>25.0.3</xenoss.project.version>
+        <xenoss.project.version>25.0.4</xenoss.project.version>
 
         <oap.deps.docker-maven-plugin.version>0.48.1</oap.deps.docker-maven-plugin.version>
         <oap.deps.build-helper-maven-plugin>3.6.1</oap.deps.build-helper-maven-plugin>
+
+        <oap.docker.platforms>linux/arm64,linux/amd64</oap.docker.platforms>
 
         <docker.image.name>oap.xenoss.net/oap-jvm</docker.image.name>
     </properties>
@@ -62,7 +64,7 @@
                             <build>
                                 <buildx>
                                     <platforms>
-                                        <platform>linux/arm64,linux/amd64</platform>
+                                        <platform>${oap.docker.platforms}</platform>
                                     </platforms>
                                 </buildx>
                                 <contextDir>${project.basedir}</contextDir>
