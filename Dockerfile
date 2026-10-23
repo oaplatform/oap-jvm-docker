@@ -15,7 +15,7 @@ RUN apt-get update \
     && locale-gen en_US.UTF-8 \
     && rm -rf /var/lib/apt/lists/*
 
-ENV JAVA_VERSION 21.0.2.14.1
+ENV JAVA_VERSION 21.0.13.0.10
 
 RUN set -eux; \
     JAVA_VERSION_URLENCODE="$(printf ${JAVA_VERSION} | jq -sRr '@uri')"; \
@@ -48,7 +48,8 @@ MAINTAINER igor.petrenko <igor.petrenko@xenoss.io>
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     gnupg2 libgomp1 less nano htop mc \
-    procps
+    procps \
+    && apt install --only-upgrade -y ca-certificates
 
 COPY start.sh /opt/xenoss/
 RUN chmod +x /opt/xenoss/start.sh
