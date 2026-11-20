@@ -62,6 +62,7 @@ abstract class DockerBuildx @Inject constructor(private val execOperations: Exec
     @get:Input abstract val correttoPackageVersion: Property<String>
     @get:Input abstract val platforms: Property<String>
     @get:Input abstract val push: Property<Boolean>
+    @get:Input abstract val builder: Property<String>
     @get:Internal abstract val contextDir: DirectoryProperty
 
     init {
@@ -77,8 +78,11 @@ abstract class DockerBuildx @Inject constructor(private val execOperations: Exec
 
         println("##teamcity[buildNumber '$tag']")
 
+        ensureBuilder(builder.get())
+
         val args = mutableListOf(
             "docker", "buildx", "build",
+            "--builder", builder.get(),
             "--platform", platforms.get(),
             "--tag", tag,
             "--build-arg", "JVM_VERSION=${jvmVersion.get()}",
@@ -91,6 +95,28 @@ abstract class DockerBuildx @Inject constructor(private val execOperations: Exec
             workingDir = contextDir.get().asFile
             commandLine(args)
         }
+    }
+
+    /**
+     * Multi-platform builds are not supported by the default `docker` driver (without containerd image store),
+     * so use a dedicated `docker-container` builder, created on first use.
+     */
+    private fun ensureBuilder(name: String) {
+        fun inspect(ignoreExitValue: Boolean) = execOperations.exec {
+            commandLine("docker", "buildx", "inspect", name)
+            standardOutput = java.io.OutputStream.nullOutputStream()
+            errorOutput = java.io.OutputStream.nullOutputStream()
+            isIgnoreExitValue = ignoreExitValue
+        }.exitValue
+
+        if (inspect(ignoreExitValue = true) == 0) return
+
+        logger.lifecycle("creating buildx builder '$name' (docker-container driver)")
+        execOperations.exec {
+            commandLine("docker", "buildx", "create", "--name", name, "--driver", "docker-container", "--bootstrap")
+            isIgnoreExitValue = true // may be created concurrently by another build
+        }
+        inspect(ignoreExitValue = false)
     }
 }
 
@@ -118,6 +144,7 @@ fun DockerBuildx.configure(push: Boolean) {
     correttoPackageVersion = oapCorrettoPackageVersion
     platforms = dockerPlatforms
     this.push = push
+    builder = providers.gradleProperty("oap.docker.builder")
     contextDir = layout.projectDirectory
 }
 

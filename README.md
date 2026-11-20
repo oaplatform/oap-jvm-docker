@@ -19,6 +19,7 @@ Image tag: `<oap.docker.repository>/<oap.docker.image>:<corretto>-<version>`, e.
   pin with `-Poap.corretto.package.version=1:25.0.5.1.2-1`
 * env `REPOSITORY_URL` overrides `oap.docker.repository`
 * the tag is printed as TeamCity build number (`##teamcity[buildNumber '...']`)
+* builds run on buildx builder `oap.docker.builder` (`docker-container` driver, created automatically on first use)
 
 ```shell
 ./gradlew dockerBuild   # build multi-arch image (linux/arm64,linux/amd64)
