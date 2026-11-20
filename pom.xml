@@ -20,9 +20,7 @@
     </organization>
 
     <properties>
-        <xenoss.project.version>25.0.5</xenoss.project.version>
-        <!-- apt epoch is required. Same version on amd64 and arm64. CVE-2026-114938. -->
-        <corretto.package.version>1:25.0.5.1.2-1</corretto.package.version>
+        <xenoss.project.version>25.0.4</xenoss.project.version>
 
         <oap.deps.docker-maven-plugin.version>0.48.1</oap.deps.docker-maven-plugin.version>
         <oap.deps.build-helper-maven-plugin>3.6.1</oap.deps.build-helper-maven-plugin>
@@ -77,7 +75,6 @@
                                 </tags>
                                 <args>
                                     <JVM_VERSION>${JVM_VERSION}</JVM_VERSION>
-                                    <CORRETTO_PACKAGE_VERSION>${corretto.package.version}</CORRETTO_PACKAGE_VERSION>
                                 </args>
                             </build>
                         </image>
