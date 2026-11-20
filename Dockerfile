@@ -1,4 +1,4 @@
-FROM debian:trixie-20261005-slim
+FROM debian:trixie-20261104-slim
 
 ARG JVM_VERSION
 # apt package version (e.g. 1:25.0.5.1.2-1), resolved by gradle
