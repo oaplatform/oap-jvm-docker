@@ -1,6 +1,8 @@
 FROM debian:trixie-20261005-slim
 
 ARG JVM_VERSION
+# apt package version (e.g. 1:25.0.5.1.2-1), resolved by gradle
+ARG CORRETTO_PACKAGE_VERSION
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
@@ -21,7 +23,7 @@ RUN locale-gen en_US.UTF-8
 RUN wget -O - https://apt.corretto.aws/corretto.key | \gpg --dearmor -o /usr/share/keyrings/corretto-keyring.gpg
 RUN echo "deb [signed-by=/usr/share/keyrings/corretto-keyring.gpg] https://apt.corretto.aws stable main" | tee /etc/apt/sources.list.d/corretto.list
 RUN apt-get update
-RUN apt-get install -y java-${JVM_VERSION}-amazon-corretto-jdk
+RUN apt-get install -y "java-${JVM_VERSION}-amazon-corretto-jdk=${CORRETTO_PACKAGE_VERSION}"
 RUN chmod +x /opt/xenoss/start.sh
 RUN echo "dash dash/sh boolean false" | debconf-set-selections
 RUN DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash

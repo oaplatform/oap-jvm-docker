@@ -7,19 +7,32 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: checkout
-        uses: actions/checkout@v4
-
-      - name: Check out actions-project-version-check repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          repository: oaplatform/actions-project-version-check
-          path: ./.github/actions/actions-project-version-check
+          fetch-depth: 0
 
-      - name: project-version-check
-        uses: ./.github/actions/actions-project-version-check
-        id: actions_project_version_check
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          file-to-check: pom.xml
-          pom-property-as-version: oap.project.version
+      - name: Compare version against base branch
+        run: |
+          HEAD_VERSION=$(grep -E '^version[[:space:]]*=' gradle.properties | sed -E 's/^version[[:space:]]*=[[:space:]]*//')
+          BASE_VERSION=$(git show "origin/${{ github.base_ref }}:gradle.properties" 2>/dev/null | grep -E '^version[[:space:]]*=' | sed -E 's/^version[[:space:]]*=[[:space:]]*//')
+
+          echo "Base branch (${{ github.base_ref }}) version: $BASE_VERSION"
+          echo "This PR's version:               $HEAD_VERSION"
+
+          if [ -z "$BASE_VERSION" ]; then
+            echo "No gradle.properties version on base branch, skipping check."
+            exit 0
+          fi
+
+          if [ "$HEAD_VERSION" = "$BASE_VERSION" ]; then
+            echo "::error::Project version was not bumped (still $HEAD_VERSION). Update the 'version' field in gradle.properties."
+            exit 1
+          fi
+
+          HIGHEST=$(printf '%s\n%s\n' "$BASE_VERSION" "$HEAD_VERSION" | sort -V | tail -n1)
+          if [ "$HIGHEST" != "$HEAD_VERSION" ]; then
+            echo "::error::Project version decreased ($BASE_VERSION -> $HEAD_VERSION). Bump the 'version' field in gradle.properties."
+            exit 1
+          fi
+
+          echo "Version bumped: $BASE_VERSION -> $HEAD_VERSION"
