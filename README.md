@@ -12,7 +12,7 @@ libjna-java tool preinstalled for enabling [Java Thread Affinity](https://github
 
 ## Build
 
-Image tag: `<oap.docker.repository>/<oap.docker.image>:<corretto>-<version>`, e.g. `oap.xenoss.net/oap-jvm:25.0.5.1.2-6`.
+Image tag: `<oap.docker.repository>/<oap.docker.image>:<corretto>-<version>`, e.g. `docker.oaplatform.org/oap-jvm:25.0.5.1.2-8`.
 
 * `version`, `oap.jvm.version` (JDK major) — `gradle.properties`
 * `<corretto>` — latest `java-<oap.jvm.version>-amazon-corretto-jdk` from apt.corretto.aws available for all platforms;

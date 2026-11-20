@@ -12,7 +12,7 @@ Base docker image (Debian slim + Amazon Corretto JDK), built with Gradle Kotlin 
 
 ## Build
 
-- Image tag: `<oap.docker.repository>/<oap.docker.image>:<corretto>-<version>`, e.g. `oap.xenoss.net/oap-jvm:25.0.5.1.2-7`.
+- Image tag: `<oap.docker.repository>/<oap.docker.image>:<corretto>-<version>`, e.g. `docker.oaplatform.org/oap-jvm:25.0.5.1.2-8`.
 - `./gradlew dockerBuild` — build (single platform: `-Poap.docker.platforms=linux/amd64`).
 - `./gradlew dockerPush` — build and push to the registry; run only when explicitly asked.
 
